@@ -7,7 +7,7 @@
 
 
 # The following example program will monitor the current directory recursively for file system changes 
-# and copy a file changed to another folder
+# and copy a specified file changed to another folder
 
 # Python3 changeCopy.py
 
