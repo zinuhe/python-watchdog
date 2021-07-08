@@ -18,10 +18,11 @@ from watchdog.observers import Observer
 from watchdog.events import PatternMatchingEventHandler
 
 # File to watch
-fileToWatch = "*.py" #"*"
+fileToWatch = "processPhotoVideoSony.py" #"*.py" #"*"
 
 # Destination path to copy
-DESTINATION = "/Users/jimmysaavedra/Documents/DEV/Python/SourceCode/Watchdog/tmp/changeCopy.py"
+#DESTINATION = "/Users/jimmysaavedra/Documents/DEV/Python/SourceCode/Watchdog/tmp/changeCopy.py"
+DESTINATION = "/Users/jimmysaavedra/Documents/DEV/Python/DCIM_Jun-24/processPhotoVideoSony.py"
 
 if __name__ == "__main__":
     patterns = [fileToWatch]
