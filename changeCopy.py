@@ -5,18 +5,26 @@
 # $ pip install watchdog
 # Python3 -m pip install watchdog
 
-
 # The following example program will monitor the current directory recursively for file system changes 
-# and copy a specified file changed to another folder
+# and copy a specified changed file to another folder
 
 # Python3 changeCopy.py
 
 import time
+import os, shutil, glob
+import os.path
+from datetime import datetime
 from watchdog.observers import Observer
 from watchdog.events import PatternMatchingEventHandler
 
+# File to watch
+fileToWatch = "*.py" #"*"
+
+# Destination path to copy
+DESTINATION = "/Users/jimmysaavedra/Documents/DEV/Python/SourceCode/Watchdog/tmp/changeCopy.py"
+
 if __name__ == "__main__":
-    patterns = ["*"]
+    patterns = [fileToWatch]
     ignore_patterns = None
     ignore_directories = False
     case_sensitive = True
@@ -30,23 +38,32 @@ def on_deleted(event):
     print(f"-- {event.src_path} was deleted")
 
 def on_modified(event):
-    print(f"-- {event.src_path} has been modified")
+    #print(f"-- {event.src_path} has been modified")
+    now = datetime.now()
+    now = now.strftime("%d/%b/%Y %H:%M:%S")
+    print(f"Copying... {now}")
+    print(f"Src: {event.src_path}")
+    print(f"Dst: {DESTINATION} \n")
+    copyFile(event.src_path, DESTINATION)
 
 def on_moved(event):
     print(f"-- {event.src_path} was moved to {event.dest_path}")
 
 
-my_event_handler.on_created = on_created
-my_event_handler.on_deleted = on_deleted
-my_event_handler.on_modified = on_modified
-my_event_handler.on_moved = on_moved
+def copyFile(source, destination, symlinks=False, ignore=None):    
+    #if os.path.isdir(source):
+    # shutil.copytree(source, destination, symlinks, ignore)
+    shutil.copy(source, destination)
 
+# my_event_handler.on_created = on_created
+# my_event_handler.on_deleted = on_deleted
+# my_event_handler.on_moved = on_moved
+my_event_handler.on_modified = on_modified
 
 path = "."
-go_recursively = True
+go_recursively = False #True
 my_observer = Observer()
 my_observer.schedule(my_event_handler, path, recursive=go_recursively)
-
 
 my_observer.start()
 try:
